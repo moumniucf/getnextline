@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:52:32 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/07 17:45:03 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:48:17 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <libc.h>
 # include <stdlib.h>
 char	*get_next_line(int fd);
-int		ft_strlen(char s);
+int		ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 
 # endif
