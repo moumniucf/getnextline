@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:16:19 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/07 13:56:37 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/09 10:50:58 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,22 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+char *ft_strdup(char *str)
+{
+	int i;
+	char *ptr;
+	int x;
+	x = ft_strlen(str);
+	ptr = malloc((x + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	while(str[i])
+	{
+		ptr[i] = str[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return(ptr);
 }
