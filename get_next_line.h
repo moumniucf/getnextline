@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:52:32 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/09 11:05:00 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:31:51 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE 
-# define BUFFER_SIZE 1166
+#  define BUFFER_SIZE 42
 # endif
 # include <libc.h>
 # include <stdlib.h>
+# include <limits.h>
+
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *str);
 
-# endif
+#endif
