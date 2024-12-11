@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:44:41 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/10 18:31:45 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:23:43 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ char	*findetheline(char *buffer)
 	if (!buffer)
 		return (NULL);
 	hvline = haveline(buffer);
-	ptr = malloc((hvline + 1) * sizeof(char));
+	if (hvline == -1)
+	{
+		return (ft_strdup(buffer));
+	}
+	ptr = malloc((hvline + 2) * sizeof(char));
 	if (!ptr)
 		return (NULL);
 	i = 0;
@@ -45,7 +49,8 @@ char	*findetheline(char *buffer)
 		ptr[i] = buffer[i];
 		i++;
 	}
-	ptr[i] = '\0';
+	ptr[i] = '\n';
+	ptr[i + 1] = '\0';
 	return (ptr);
 }
 
@@ -56,17 +61,19 @@ char	*afternewline(char *str)
 	int		x;
 	int		y;
 	int		xy;
+	if (!str)
+		return (NULL);
 
 	x = haveline(str);
-	// if (x == -1)
-	// 	return (NULL);
+	if (x == -1)
+		return (NULL);
 	y = ft_strlen(str);
 	xy = (y - x);
-	ptr = malloc((xy) * sizeof(char));
+	ptr = malloc((xy) * sizeof(char) + 1);
 	if (!ptr)
 		return (NULL);
 	i = 0;
-	while (str[i])
+	while (i < xy)
 	{
 		ptr[i] = str[(x + 1) + i];
 		i++;
@@ -77,17 +84,49 @@ char	*afternewline(char *str)
 
 char	*get_next_line(int fd)
 {
-	int i;
-	char *array;
-	static char *buuf;
-	array = malloc(sizeof(BUFFER_SIZE));
-	if (!array)
-		return (NULL);
-	return(array);
+	char *ptr;
+	static char *array;
+	int readline;
+	char *nextline;
+	while (haveline(array) == -1)
+	{
+		ptr = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!ptr)
+			return (NULL);
+		readline = read(fd, ptr, BUFFER_SIZE);
+		if (readline < 1)
+			break ;
+		ptr[readline] = '\0';
+		array = ft_strjoin(array, ptr);
+		// printf("[%s , %d]", array, haveline(ptr));
+	}
+	nextline = findetheline(array);
+	array = afternewline(array);
+	// printf("[%s]", array);
+	return (nextline);
 }
 
 int main()
 {
-	char s[] = "youssef\nmoumni\n13337\n";
-	printf("%s\n", afternewline(s));
+	int fd = open("get_next_line.h", O_RDONLY, 0775);
+	char *s;
+	char *line;
+
+	line = get_next_line(fd);
+	// printf("%s", line);
+	// line = get_next_line(fd);
+	// printf("%s", line);
+	// line = get_next_line(fd);
+	// printf("%s", line);
+	// line = get_next_line(fd);
+	// printf("%s", line);
+	while(line)
+	{
+		printf("%s", line);
+		line = get_next_line(fd);
+	}
 }
+
+//==> step for get function
+
+//1 ==> 
