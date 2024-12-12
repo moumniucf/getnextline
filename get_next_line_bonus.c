@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/03 15:44:41 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/12 18:34:44 by youmoumn         ###   ########.fr       */
+/*   Created: 2024/12/12 18:35:37 by youmoumn          #+#    #+#             */
+/*   Updated: 2024/12/12 18:39:09 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	haveline(char *s)
 {
@@ -110,22 +110,3 @@ char	*get_next_line(int fd)
 	buffer = afternewline(buffer);
 	return (free(tmp), nextline);
 }
-
-// void	leaks()
-// {
-// 	system("leaks a.out");
-// }
-// int main()
-// {
-// 	int fd = open("get_next_line.h", O_RDONLY, 0775);
-// 	char *line;
-// 	line = get_next_line(fd);
-// 	while(line)
-// 	{
-// 		printf("%s", line);
-// 		// free(line);
-// 		line = get_next_line(fd);
-// 		printf("==> %p\n", line);
-// 	}
-// 	atexit(leaks);
-// }
