@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:44:41 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/12 18:34:44 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:56:16 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ int	haveline(char *s)
 	return (-1);
 }
 
-char	*findetheline(char *buffer)
+char	*findetheline(char *buffer, int n)
 {
 	int		i;
 	int		hvline;
 	char	*ptr;
 
-	if (!buffer)
+	if (!buffer || n == -1)
 		return (NULL);
 	hvline = haveline(buffer);
 	if (hvline == -1)
@@ -66,8 +66,8 @@ char	*afternewline(char *str)
 	y = ft_strlen(str);
 	x = haveline(str);
 	if (x == -1 || y == x + 1)
-		return (NULL);
-	xy = (y - x);
+		return (free(str), NULL);
+	xy = y - x;
 	ptr = malloc((xy) * sizeof(char) + 1);
 	if (!ptr)
 		return (NULL);
@@ -78,7 +78,7 @@ char	*afternewline(char *str)
 		i++;
 	}
 	ptr[i] = '\0';
-	return (ptr);
+	return (free(str), ptr);
 }
 
 char	*get_next_line(int fd)
@@ -87,7 +87,6 @@ char	*get_next_line(int fd)
 	char		*nextline;
 	char		*ptr;
 	int			readline;
-	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -105,27 +104,7 @@ char	*get_next_line(int fd)
 		ptr[readline] = '\0';
 		buffer = ft_strjoin(buffer, ptr);
 	}
-	nextline = findetheline(buffer);
-	tmp = buffer;
+	nextline = findetheline(buffer, readline);
 	buffer = afternewline(buffer);
-	return (free(tmp), nextline);
+	return (nextline);
 }
-
-// void	leaks()
-// {
-// 	system("leaks a.out");
-// }
-// int main()
-// {
-// 	int fd = open("get_next_line.h", O_RDONLY, 0775);
-// 	char *line;
-// 	line = get_next_line(fd);
-// 	while(line)
-// 	{
-// 		printf("%s", line);
-// 		// free(line);
-// 		line = get_next_line(fd);
-// 		printf("==> %p\n", line);
-// 	}
-// 	atexit(leaks);
-// }
