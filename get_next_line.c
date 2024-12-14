@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:44:41 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/13 18:56:16 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/14 16:20:27 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	haveline(char *s)
 	if (!s)
 		return (-1);
 	i = 0;
-	while (s[i] && s[i] != '\n')
+	while (s[i] != '\0' && s[i] != '\n')
 		i++;
 	if (s[i] == '\n')
 		return (i);
@@ -34,11 +34,9 @@ char	*findetheline(char *buffer, int n)
 
 	if (!buffer || n == -1)
 		return (NULL);
-	hvline = haveline(buffer);
-	if (hvline == -1)
-	{
+	if (haveline(buffer) == -1)
 		return (ft_strdup(buffer));
-	}
+	hvline = haveline(buffer);
 	ptr = malloc((hvline + 2) * sizeof(char));
 	if (!ptr)
 		return (NULL);
@@ -68,13 +66,13 @@ char	*afternewline(char *str)
 	if (x == -1 || y == x + 1)
 		return (free(str), NULL);
 	xy = y - x;
-	ptr = malloc((xy) * sizeof(char) + 1);
+	ptr = malloc((xy + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
 	i = 0;
 	while (i < xy)
 	{
-		ptr[i] = str[(x + 1) + i];
+		ptr[i] = str[x + 1 + i];
 		i++;
 	}
 	ptr[i] = '\0';
@@ -92,17 +90,18 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (haveline(buffer) == -1)
 	{
-		ptr = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		ptr = malloc(((size_t)BUFFER_SIZE) * sizeof(char) + 1);
 		if (!ptr)
 			return (NULL);
 		readline = read(fd, ptr, BUFFER_SIZE);
-		if (readline <= 0)
+		if (readline < 1)
 		{
 			free(ptr);
 			break ;
 		}
 		ptr[readline] = '\0';
 		buffer = ft_strjoin(buffer, ptr);
+		free(ptr);
 	}
 	nextline = findetheline(buffer, readline);
 	buffer = afternewline(buffer);

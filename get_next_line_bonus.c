@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:35:37 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/13 16:06:49 by youmoumn         ###   ########.fr       */
+/*   Updated: 2024/12/14 17:50:36 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,24 @@ int	haveline(char *s)
 	if (!s)
 		return (-1);
 	i = 0;
-	while (s[i] && s[i] != '\n')
+	while (s[i] != '\0' && s[i] != '\n')
 		i++;
 	if (s[i] == '\n')
 		return (i);
 	return (-1);
 }
 
-char	*findetheline(char *buffer)
+char	*findetheline(char *buffer, int n)
 {
 	int		i;
 	int		hvline;
 	char	*ptr;
 
-	if (!buffer)
+	if (!buffer || n == -1)
 		return (NULL);
-	hvline = haveline(buffer);
-	if (hvline == -1)
-	{
+	if (haveline(buffer) == -1)
 		return (ft_strdup(buffer));
-	}
+	hvline = haveline(buffer);
 	ptr = malloc((hvline + 2) * sizeof(char));
 	if (!ptr)
 		return (NULL);
@@ -66,47 +64,46 @@ char	*afternewline(char *str)
 	y = ft_strlen(str);
 	x = haveline(str);
 	if (x == -1 || y == x + 1)
-		return (NULL);
-	xy = (y - x);
-	ptr = malloc((xy) * sizeof(char) + 1);
+		return (free(str), NULL);
+	xy = y - x;
+	ptr = malloc((xy + 1) * sizeof(char));
 	if (!ptr)
 		return (NULL);
 	i = 0;
 	while (i < xy)
 	{
-		ptr[i] = str[(x + 1) + i];
+		ptr[i] = str[x + 1 + i];
 		i++;
 	}
 	ptr[i] = '\0';
-	return (ptr);
+	return (free(str), ptr);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[OPEN_MAX];
 	char		*nextline;
 	char		*ptr;
 	int			readline;
-	char		*tmp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (haveline(buffer) == -1)
+	while (haveline(buffer[fd]) == -1)
 	{
-		ptr = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		ptr = malloc(((size_t)BUFFER_SIZE) * sizeof(char) + 1);
 		if (!ptr)
 			return (NULL);
 		readline = read(fd, ptr, BUFFER_SIZE);
-		if (readline <= 0)
+		if (readline < 1)
 		{
 			free(ptr);
 			break ;
 		}
 		ptr[readline] = '\0';
-		buffer = ft_strjoin(buffer, ptr);
+		buffer[fd] = ft_strjoin(buffer[fd], ptr);
+		free(ptr);
 	}
-	nextline = findetheline(buffer);
-	tmp = buffer;
-	buffer = afternewline(buffer);
-	return (free(tmp), nextline);
+	nextline = findetheline(buffer[fd], readline);
+	buffer[fd] = afternewline(buffer[fd]);
+	return (nextline);
 }
