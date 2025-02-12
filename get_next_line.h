@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:52:32 by youmoumn          #+#    #+#             */
-/*   Updated: 2025/02/12 12:14:48 by youmoumn         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:23:30 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # endif
 # include <stdlib.h>
 # include <limits.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 int		ft_strlen(char *s);
