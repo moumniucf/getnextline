@@ -6,7 +6,7 @@
 /*   By: youmoumn <youmoumn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 15:52:32 by youmoumn          #+#    #+#             */
-/*   Updated: 2024/12/14 17:07:09 by youmoumn         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:14:48 by youmoumn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # ifndef BUFFER_SIZE 
 #  define BUFFER_SIZE 42
 # endif
-# include <libc.h>
 # include <stdlib.h>
 # include <limits.h>
 
